@@ -26,4 +26,5 @@
 !/tmp/storage/.keep
 
 # Ignore master key for decrypting credentials and more.
+coverage
 /config/master.key
