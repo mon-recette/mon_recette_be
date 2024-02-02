@@ -20,7 +20,6 @@ RSpec.describe "Create User", type: :request do
       error = JSON.parse(response.body, symbolize_names: true)
       expect(error[:error]).to eq("Email has already been taken")
     end
-
     
   end
 end

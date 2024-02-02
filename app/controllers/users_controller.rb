@@ -29,7 +29,7 @@ class UsersController < ApplicationController
       render json: { error: "Incorrect credentials." }, status: :unprocessable_entity
     elsif user.authenticate(params[:user][:password])
       token = user.generate_auth_token
-      render json: { success: "Welcome, #{user.email}!", token: token }, status: 200
+      render json: { success: "Welcome, #{user.email}!", token: token, email: params[:user][:email] }, status: 200
     else
       render json: { error: "Incorrect credentials." }, status: :unauthorized
     end
@@ -37,6 +37,7 @@ class UsersController < ApplicationController
 
 
   def logout
+    # FE deletes token because we don't have sessions?????????????????????????
     reset_session
     flash[:success] = "You have been logged out successfully."
     redirect_to "/"
