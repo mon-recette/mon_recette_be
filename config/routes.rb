@@ -3,4 +3,15 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  get "webscraping", to: "webscraping#webscrape"
+  resources :users, only: [:create, :show] do
+    member do
+      get 'login'
+      get 'logout'
+    end
+  
+    collection do
+      get 'login_form'
+    end
+  end
 end
