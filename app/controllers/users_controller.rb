@@ -12,10 +12,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # def new
-  #   @user = User.new
-  # end
-
   def create
     user = users_params
     user[:email] = user[:email].downcase
@@ -27,21 +23,15 @@ class UsersController < ApplicationController
     end
   end
 
-  def login_form
-  end
-
   def login
-    user = User.find_by(email: params[:email])
+    user = User.find_by_email(params[:user][:email])
     if user.nil?
-      flash[:error] = "Sorry, we are unable to find a user with this e-mail. Please check credentials or create an account."
-      redirect_to login_path
-    elsif user.authenticate(params[:password])
-      session[:user_id] = user.id
-      # flash[:success] = "Welcome, #{user.email}!"
-      initiate_verification(user)
+      render json: { error: "Incorrect credentials." }, status: :unprocessable_entity
+    elsif user.authenticate(params[:user][:password])
+      token = user.generate_auth_token
+      render json: { success: "Welcome, #{user.email}!", token: token }, status: 200
     else
-      flash[:error] = "Sorry, your credentials are bad."
-      render :login_form
+      render json: { error: "Incorrect credentials." }, status: :unauthorized
     end
   end
 
