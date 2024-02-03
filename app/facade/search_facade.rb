@@ -2,7 +2,10 @@ class SearchFacade
   def get_recipes(term)
     service = SearchService.new
     data = service.get_recipes(term)
-    results = MealPoro.new(data)
-    results
+    if data[:meals]
+      results = MealPoro.new(data)
+    else
+      results = "No results found"
+    end
   end
 end
