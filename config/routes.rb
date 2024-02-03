@@ -6,17 +6,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :recipes do
+      # resources :recipes do
         
-      end
+      # end
       resources :searches, only: [:index]
-      # resources :backgrounds, only: [:index]
 
-      # post "/customers" => "customers#create"
-      # # get "/subscriptions" => "subscriptions#index"
-      # post "/subscriptions" => "subscriptions#create"
-      # post "/teas" => "teas#create"
-      # patch "/subscription_teas" => "teas#sub_change"
     end
   end
 end
