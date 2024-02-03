@@ -5,8 +5,12 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   namespace :api do
-    namespace :v0 do
-      resources :recipes, only: :index
+    namespace :v1 do
+      # resources :recipes do
+        
+      # end
+      resources :searches, only: [:index]
+
     end
   end
 end

@@ -23,6 +23,6 @@ class Api::V0::RecipesController < ApplicationController
     
     # modified_string = formatted.gsub(/#{Regexp.escape('Instructions')}/, "#{'Instructions'}\n")
 
-    render json: WebScrapSerializer.new(WebScrapFacade.new.web_scrap(web)), status: :ok
+    render json: WebScrapSerializer.new(WebScrapFacade.new(web)), status: :ok
   end
 end

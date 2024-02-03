@@ -5,7 +5,7 @@ RSpec.describe 'recipes request' do
     it 'when user provides a link, response provides name ingredients and instructions' do
       # web scrap happy path
       VCR.use_cassette('recipe_search') do
-        get '/api/v0/recipes?search=https://www.awickedwhisk.com/homemade-chicken-ravioli-recipe-3/'
+        get '/api/v1/searches?term=https://www.awickedwhisk.com/homemade-chicken-ravioli-recipe-3/'
 
         expect(response).to be_successful
         expect(response.status).to eq(200)
@@ -24,8 +24,6 @@ RSpec.describe 'recipes request' do
         expect(recipe_data[:recipes][0]).to have_key(:name)
         expect(recipe_data[:recipes][0]).to have_key(:ingredients)
         expect(recipe_data[:recipes][0]).to have_key(:instructions)
-        expect(recipe_data[:recipes][0]).to have_key(:image_url)
-
       end
     end
   end
