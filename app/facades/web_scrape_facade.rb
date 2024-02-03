@@ -4,26 +4,21 @@ class WebScrapeFacade
   end
 
   def ingredients(web)
-    list = web_scrap(web).css('div[class*="ingredients"]').text
-    formatted_list = list.gsub(/#{Regexp.escape('Ingredients')}/, "#{'Ingredients'}\n")
-                          .gsub(/([a-z])([A-Z])/, '\1' + "\n" + '\2')
-                          .gsub(/([a-z])(\d)/, '\1 \2')
-                          .gsub(/(\d+\/\d+\s*-\s*\d+\/\d+|\d+\/\d+|\d+)\s*([a-zA-Z]+)/, "\n\\1 \\2")
-
-    array = formatted_list.split("\n")
-    final_array = array.map { |ingredient| ingredient.strip }
+    web_scrap(web).css('div[class*="ingredients"]').text
   end
 
   def instructions(web)
-    inst = web_scrap(web).css('div[class*="instructions"]').text
-    
-    instructions.gsub(/([A-Z][a-z]*)/, "\n\\1")
-                .gsub(/#{Regexp.escape('Instructions')}/, "#{'Instructions'}\n")
+    web_scrap(web).css('div[class*="instructions"]').text
+  end
+
+  def name(web)
+    web_scrap(web).css('h1[class*="title"]').text
   end
 
   def recipe_details(web)
+    dish_name = name(web)
     inst = instructions(web)
     ing = ingredients(web)
-    WebScrape.new(inst, ing)
+    WebScrape.new(inst, ing, dish_name)
   end
 end

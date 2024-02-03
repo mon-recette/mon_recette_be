@@ -1,5 +1,17 @@
 class WebScrapeSerializer
   include JSONAPI::Serializer
-  attributes :name, :instructions, :ingredients 
-
+  
+  def self.recipes(recipe_data)
+    {
+      data: {
+        id: 'null',
+        type: 'recipes',
+        attributes: {
+          name: recipe_data.name,
+          ingredients: recipe_data.ingredients,
+          instructions: recipe_data.instructions,
+        }
+      }
+    }
+  end
 end

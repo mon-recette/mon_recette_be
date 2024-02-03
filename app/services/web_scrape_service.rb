@@ -7,6 +7,4 @@ class WebScrapeService
     response = conn(url)
     Nokogiri::HTML(response.body)
   end
-
-
 end
