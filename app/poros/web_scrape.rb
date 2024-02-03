@@ -9,17 +9,18 @@ class WebScrape
   end
 
   def ingredients
-    array = @ing.gsub(/#{Regexp.escape('Ingredients')}/, "#{'Ingredients'}\n")
+    ing = @ing.gsub(('Ingredients '), "")
                   .gsub(/([a-z])([A-Z])/, '\1' + "\n" + '\2')
                   .gsub(/([a-z])(\d)/, '\1 \2')
-                  .gsub(/(\d+\/\d+\s*-\s*\d+\/\d+|\d+\/\d+|\d+)\s*([a-zA-Z]+)/, "\n\\1 \\2")
+                  .gsub(/(\d+-\d+\s*(?:\/\d+)?|\d+\/\d+|\d+)\s*([a-zA-Z]+)/, "\n\\1 \\2")
                   .split("\n")
+                  .reject(&:blank?)
 
-    array.map { |ingredient| ingredient.strip }
+    ing.map { |ingredient| ingredient.strip }
   end
 
   def instructions
-    @inst.gsub(/([A-Z][a-z]*)/, "\n\\1")
-        .gsub(/#{Regexp.escape('Instructions')}/, "#{'Instructions'}\n")
+    @inst.gsub(/#{Regexp.escape('Instructions')}/, '')
+         .gsub(/([a-z])([A-Z])/, '\1' + ' ' + '\2')
   end
 end
