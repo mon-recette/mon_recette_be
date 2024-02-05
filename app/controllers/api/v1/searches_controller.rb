@@ -25,12 +25,12 @@ class Api::V1::SearchesController < ApplicationController
   end
 
   def scrape_from_sites(website)
-    if website.include?('awickedwhisk.com/')
+    if website.include?('awickedwhisk.com')
       render json: WebScrapeSerializer.recipes(WebScrapeFacade.new.recipe_details(website)), status: :ok
     elsif website.include?('allrecipes.com')
       facade = AllRecipesScrapeFacade.new
       recipe_results = facade.recipe_details(website)
-      render json: AllRecipesSerializer.new(recipe_results), status: 200
+      render json: WebScrapeSerializer.recipes(recipe_results), status: 200
     elsif website.include?('tasteofhome.com')
       render json: WebScrapeSerializer.recipes(TohScrapeFacade.new.recipe_details(website)), status: :ok
     end
