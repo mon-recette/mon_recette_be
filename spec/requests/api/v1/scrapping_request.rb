@@ -79,5 +79,17 @@ RSpec.describe 'recipes request' do
         expect(recipe_data[:instructions]).to include('Preheat oven to 350°')
       end
     end
+
+    it 'does not work without proper website' do
+      VCR.use_cassette('wrong_address_toh') do
+        get '/api/v1/searches?term=https://www.tasteofhome.com/recipes/chocolate-cupcakes-with-strawberry'
+
+        expect(response.status).to eq(400)
+
+        results = JSON.parse(response.body, symbolize_names: true)
+        expect(results[:errors].first[:status]).to eq("400")
+        expect(results[:errors].first[:title]).to eq("Please provide a correct website link")
+      end
+    end
   end
 end
