@@ -1,4 +1,4 @@
-class WebScrapeFacade
+class TohScrapeFacade
   def web_scrape(web)
     data = WebScrapeService.new.scrape(web)
   end
@@ -8,7 +8,7 @@ class WebScrapeFacade
   end
 
   def instructions(web)
-    web_scrape(web).css('div[class*="instructions"]').text
+    web_scrape(web).css('div[class*="directions"]').text
   end
 
   def name(web)
@@ -19,6 +19,6 @@ class WebScrapeFacade
     dish_name = name(web)
     inst = instructions(web)
     ing = ingredients(web)
-    WebScrape.new(inst, ing, dish_name)
+    TohScrape.new(inst, ing, dish_name)
   end
 end
