@@ -3,7 +3,16 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  get "webscraping", to: "webscraping#webscrape"
+
+  namespace :api do
+    namespace :v1 do
+      # resources :recipes do
+        
+      # end
+      resources :searches, only: [:index]
+
+    end
+  end
   post "/users", to: "users#create"
   post "/users/login", to: "users#login"
   get "/users/logout", to: "users#logout"
