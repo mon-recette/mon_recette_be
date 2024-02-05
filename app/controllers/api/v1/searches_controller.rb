@@ -2,7 +2,7 @@ class Api::V1::SearchesController < ApplicationController
   def index
     search_term = params[:term]
     if search_term.include?('https://www.awickedwhisk.com')
-      render json: WebScrapeSerializer.recipes(WebScrapeFacade.new.recipe_details(search_term)), status: :ok
+      scrape_web(search_term)
     elsif search_term.include?('https://www.allrecipes.com')
       facade = AllRecipesScrapeFacade.new
       recipe_results = facade.recipe_details(search_term)
@@ -15,6 +15,16 @@ class Api::V1::SearchesController < ApplicationController
       else
         render json: MealSerializer.new(results), status: 200
       end
+    end
+  end
+
+  private
+
+  def scrape_web(website)
+    if WebScrapeService.new.conn(website).status == 200
+      render json: WebScrapeSerializer.recipes(WebScrapeFacade.new.recipe_details(website)), status: :ok
+    else
+      render json: { errors: [title: "Please provide a correct website link", status: "400"]}, status: :bad_request
     end
   end
 end

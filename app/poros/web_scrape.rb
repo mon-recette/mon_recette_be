@@ -9,7 +9,7 @@ class WebScrape
   end
 
   def ingredients
-    ing = @ing.gsub(('Ingredients '), "")
+    ing = @ing.gsub(('Ingredients'), "")
                   .gsub(/([a-z])([A-Z])/, '\1' + "\n" + '\2')
                   .gsub(/([a-z])(\d)/, '\1 \2')
                   .gsub(/(\d+-\d+\s*(?:\/\d+)?|\d+\/\d+|\d+)\s*([a-zA-Z]+)/, "\n\\1 \\2")
@@ -20,7 +20,7 @@ class WebScrape
   end
 
   def instructions
-    @inst.gsub(/#{Regexp.escape('Instructions')}/, '')
+    @inst.gsub(('Instructions'), '')
          .gsub(/([a-z])([A-Z])/, '\1' + ' ' + '\2')
   end
 end
