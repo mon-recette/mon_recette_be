@@ -32,17 +32,20 @@ RSpec.describe 'recipes request' do
         expect(response).to be_successful
         expect(response.status).to eq(200)
 
-        recipe = JSON.parse(response.body, symbolize_names: true)[:data]
+        found_recipes = JSON.parse(response.body, symbolize_names: true)[:data]
 
-        expect(recipe).to have_key(:id)
-        expect(recipe).to have_key(:type)
-        expect(recipe).to have_key(:attributes)
-
-        recipe_data = recipe[:attributes]
-        require 'pry';binding.pry
-        expect(recipe_data).to have_key(:name)
-        expect(recipe_data).to have_key(:ingredients)
-        expect(recipe_data).to have_key(:instructions)
+        expect(found_recipes).to have_key(:id)
+        expect(found_recipes).to have_key(:type)
+        # expect(found_recipes[:type]).to eq("meal")
+        found_recipes[:attributes][:recipes].each do |meal|
+        expect(meal).to have_key(:name)
+        expect(meal[:name]).to_not eq(nil)
+        expect(meal).to have_key(:instructions)
+        expect(meal[:instructions]).to_not eq(nil)
+        expect(meal).to have_key(:image_url)
+        expect(meal).to have_key(:ingredients)
+        expect(meal[:ingredients]).to_not eq(nil)
+      end
       end
     end
   end
