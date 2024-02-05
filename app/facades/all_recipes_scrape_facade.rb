@@ -16,7 +16,6 @@ class AllRecipesScrapeFacade
       instructions_list << single
     end
     
-    image_url = instructions_container.css("img").first.attribute_nodes.first.value
     name = document.css("h1.comp").first.children.text.gsub(/\n/,"") 
     joined_instructions = instructions_list.join
     AllRecipesPoro.new(name, ingredients_list, joined_instructions) 
