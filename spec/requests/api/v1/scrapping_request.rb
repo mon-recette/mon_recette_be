@@ -35,5 +35,28 @@ RSpec.describe 'recipes request' do
         expect(results[:errors].first[:title]).to eq("Please provide a correct website link")
       end
     end
+
+    it 'works with taste of home' do
+      VCR.use_cassette('taste_of_home') do
+        get '/api/v1/searches?term=https://www.tasteofhome.com/recipes/chocolate-cupcakes-with-strawberry-filling/'
+        
+        expect(response).to be_successful
+        expect(response.status).to eq(200)
+
+        recipe = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(recipe).to have_key(:id)
+        expect(recipe).to have_key(:type)
+        expect(recipe).to have_key(:attributes)
+
+        recipe_data = recipe[:attributes]
+        expect(recipe_data).to have_key(:name)
+        expect(recipe_data).to have_key(:ingredients)
+        expect(recipe_data).to have_key(:instructions)
+
+        expect(recipe_data[:ingredients]).to include('1 large egg, room temperature')
+        expect(recipe_data[:instructions]).to include('Preheat oven to 350°')
+      end
+    end
   end
 end
