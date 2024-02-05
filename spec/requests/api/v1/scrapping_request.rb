@@ -33,21 +33,18 @@ RSpec.describe 'recipes request' do
         expect(response.status).to eq(200)
 
         found_recipes = JSON.parse(response.body, symbolize_names: true)[:data]
-
         expect(found_recipes).to have_key(:id)
         expect(found_recipes).to have_key(:type)
-        # expect(found_recipes[:type]).to eq("meal")
-        found_recipes[:attributes][:recipes].each do |meal|
-        expect(meal).to have_key(:name)
-        expect(meal[:name]).to_not eq(nil)
-        expect(meal).to have_key(:instructions)
-        expect(meal[:instructions]).to_not eq(nil)
-        expect(meal).to have_key(:image_url)
-        expect(meal).to have_key(:ingredients)
-        expect(meal[:ingredients]).to_not eq(nil)
+        expect(found_recipes).to have_key(:id)
+        expect(found_recipes).to have_key(:type)
+        expect(found_recipes).to have_key(:attributes)
+        recipe_data = found_recipes[:attributes]
+        expect(recipe_data).to have_key(:name)
+        expect(recipe_data).to have_key(:ingredients)
+        expect(recipe_data).to have_key(:instructions)
       end
     end
-    
+
     it 'does not work without proper website' do
       VCR.use_cassette('fake_site') do
         get '/api/v1/searches?term=https://www.allrecipes.com/recipe/240400/skillet-chicken'

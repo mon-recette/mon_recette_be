@@ -6,7 +6,7 @@ class Api::V1::SearchesController < ApplicationController
     elsif search_term.include?('https://www.allrecipes.com')
       facade = AllRecipesScrapeFacade.new
       recipe_results = facade.recipe_details(search_term)
-      render json: MealSerializer.new(recipe_results), status: 200
+      render json: AllRecipesSerializer.new(recipe_results), status: 200
     else
       facade = SearchFacade.new
       results = facade.get_recipes(search_term)

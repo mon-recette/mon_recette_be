@@ -1,15 +1,10 @@
 class AllRecipesPoro
-  attr_reader :id, :type, :recipes
-  def initialize(name, ingredients, instructions, image)
+  attr_reader :id, :type, :name, :instructions, :ingredients
+  def initialize(name, ingredients, instructions)
     @id = nil
-    @type = "recipe_list"
-    @recipes = []
-    result = {
-      :name => name,
-      :instructions => instructions,
-      :image_url => image,
-      :ingredients => ingredients
-    }
-    @recipes << result
+    @type = "recipe"
+    @name = name
+    @instructions = instructions
+    @ingredients = ingredients
   end
 end
