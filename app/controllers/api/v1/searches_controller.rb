@@ -4,17 +4,20 @@ class Api::V1::SearchesController < ApplicationController
     if search_term.include?('http')
       scrape_web(search_term)
     else
-      facade = SearchFacade.new
-      results = facade.get_recipes(search_term)
-      if results == "No results found"
-        render json: {errors: results}, status: 404
-      else
-        render json: MealSerializer.new(results), status: 200
-      end
+      food_search(search_term)
     end
   end
 
   private
+
+  def food_search(search_term)
+    results = SearchFacade.new.get_recipes(search_term)
+    if results == "No results found"
+      render json: {errors: results}, status: 404
+    else
+      render json: MealSerializer.new(results), status: 200
+    end
+  end
 
   def scrape_web(website)
     if WebScrapeService.new.conn(website).status == 200

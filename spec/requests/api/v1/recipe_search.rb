@@ -23,6 +23,7 @@ RSpec.describe "Find recipes by search" do
   it "user doesn't exist" do 
     VCR.use_cassette('zzz_results') do
       get "/api/v1/searches?term=zzz"
+      require 'pry'; binding.pry
       response_body = JSON.parse(response.body, symbolize_names: true)
       expect(response.status).to eq(404)
       expect(response_body).to have_key(:errors)
