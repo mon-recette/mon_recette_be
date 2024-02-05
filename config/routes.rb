@@ -13,4 +13,7 @@ Rails.application.routes.draw do
 
     end
   end
+  post "/users", to: "users#create"
+  post "/users/login", to: "users#login"
+  get "/users/logout", to: "users#logout"
 end

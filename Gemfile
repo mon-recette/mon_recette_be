@@ -37,6 +37,8 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 gem 'faraday'
 gem 'jsonapi-serializer'
+gem 'nokogiri'
+gem 'selenium-webdriver'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -44,6 +46,7 @@ group :development, :test do
   gem "simplecov"
   gem "rspec-rails"
   gem "pry"
+  gem "capybara"
 end
 
 group :development do
