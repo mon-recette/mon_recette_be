@@ -16,6 +16,7 @@ class WebScrapeFacade
   end
 
   def recipe_details(web)
+    require 'pry';binding.pry
     dish_name = name(web)
     inst = instructions(web)
     ing = ingredients(web)
