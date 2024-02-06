@@ -45,6 +45,24 @@ RSpec.describe 'recipes request' do
       end
     end
 
+    it "when user provides a link to the foodnetwork website, response provides name ingredients and instructions" do
+      VCR.use_cassette('foodnetwork_search') do
+        get "/api/v1/searches?term=https://www.foodnetwork.com/recipes/food-network-kitchen/the-perfect-grilled-cheese-3636831"
+        expect(response).to be_successful
+        expect(response.status).to eq(200)
+        found_recipes = JSON.parse(response.body, symbolize_names: true)[:data]
+        expect(found_recipes).to have_key(:id)
+        expect(found_recipes).to have_key(:type)
+        expect(found_recipes).to have_key(:id)
+        expect(found_recipes).to have_key(:type)
+        expect(found_recipes).to have_key(:attributes)
+        recipe_data = found_recipes[:attributes]
+        expect(recipe_data).to have_key(:name)
+        expect(recipe_data).to have_key(:ingredients)
+        expect(recipe_data).to have_key(:instructions)
+      end
+    end
+
     it 'does not work without proper website' do
       VCR.use_cassette('fake_site') do
         get '/api/v1/searches?term=https://www.allrecipes.com/recipe/240400/skillet-chicken'

@@ -34,6 +34,10 @@ class Api::V1::SearchesController < ApplicationController
       facade = AllRecipesScrapeFacade.new
       recipe_results = facade.recipe_details(website)
       render json: WebScrapeSerializer.recipes(recipe_results), status: 200
+    elsif search_term.include?('foodnetwork.com')
+      facade = FoodNetworkScrapeFacade.new
+      recipe_results = facade.recipe_details(search_term)
+      render json: WebScrapeSerializer.recipes(recipe_results), status: 200
     elsif website.include?('tasteofhome.com')
       render json: WebScrapeSerializer.recipes(TohScrapeFacade.new.recipe_details(website)), status: :ok
     end
