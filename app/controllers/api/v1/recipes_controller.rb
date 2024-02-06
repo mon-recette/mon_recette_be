@@ -1,16 +1,32 @@
 class Api::V1::RecipesController < ApplicationController
   def index
-    user = User.find_by(id: params[:user_id])
-    render json: UserRecipesSerializer.new(UserRecipesPoro.new(user.recipes.all)), status: 200
+    if params[:user_id].present?
+      user = User.find_by(id: params[:user_id])
+      if user
+        render json: UserRecipesSerializer.new(UserRecipesPoro.new(params[:user_id], user.recipes.all)), status: 200
+      else
+        render json: {errors: "User doesn't exist"}, status: 404
+      end
+    else
+      render json: {errors: "Missing information"}, status: 404
+    end
   end
 
   def create
-    user = User.find_by(id: params[:user_id])
-    recipe = Recipe.new(user_id: user.id,
-     name: params[:name],
-      ingredients: params[:ingredients],
-       instructions: params[:instructions])
-    recipe.save
-    render json: {success: "Recipe saved to user"}, status: 201
+    if params[:user_id].present? && params[:name].present? && params[:ingredients].present? && params[:instructions].present?
+      user = User.find_by(id: params[:user_id])
+      if user
+        recipe = Recipe.new(user_id: user.id,
+        name: params[:name],
+          ingredients: params[:ingredients],
+          instructions: params[:instructions])
+        recipe.save
+        render json: {success: "Recipe saved to user"}, status: 201
+      else
+        render json: {errors: "User doesn't exist"}, status: 404
+      end
+    else
+      render json: {errors: "Missing information"}, status: 404
+    end
   end
 end
