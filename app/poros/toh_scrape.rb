@@ -22,9 +22,11 @@ class TohScrape
   end
 
   def instructions
-    @inst.gsub(('Directions'), '')
-         .gsub(('   '), ' ')
-         .gsub(("\n"), "")
-         .gsub(("\t"), "")
+    inst = @inst.gsub(('Directions'), '')
+                .gsub(('   '), ' ')
+                .gsub(("\n"), "")
+                .gsub(("\t"), "")
+                .split(/(?<=\.) /)
+    inst.map { |sentence| sentence.reverse.strip.reverse }
   end
 end

@@ -9,7 +9,7 @@ RSpec.describe FoodNetworkPoro do
       recipe = FoodNetworkPoro.new(name, ingredients, instructions)
       expect(recipe.name).to eq('random stuff')
       expect(recipe.ingredients).to be_an(Array)
-      expect(recipe.instructions).to be_a(String)
+      expect(recipe.instructions).to be_a(Array)
     end
   end
 end

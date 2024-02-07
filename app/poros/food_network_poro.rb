@@ -4,7 +4,7 @@ class FoodNetworkPoro
     @id = nil
     @type = "recipe"
     @name = name
-    @instructions = instructions
+    @instructions = instructions.split('.')
     @ingredients = ingredients
   end
 end

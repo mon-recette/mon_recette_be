@@ -20,7 +20,9 @@ class WebScrape
   end
 
   def instructions
-    @inst.gsub(('Instructions'), '')
-         .gsub(/([a-z])([A-Z])/, '\1' + ' ' + '\2')
+    inst = @inst.gsub(('Instructions'), '')
+                .gsub(/([a-z])([A-Z])/, '\1' + ' ' + '\2')
+                .split(/(?<=\.) /)
+    inst.map { |sentence| sentence.reverse.strip.reverse }
   end
 end
