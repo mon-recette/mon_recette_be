@@ -94,7 +94,7 @@ RSpec.describe 'recipes request' do
         expect(recipe_data).to have_key(:instructions)
 
         expect(recipe_data[:ingredients]).to include('1 large egg, room temperature')
-        expect(recipe_data[:instructions]).to include('Preheat oven to 350°')
+        expect(recipe_data[:instructions]).to include('Preheat oven to 350°.')
       end
     end
 

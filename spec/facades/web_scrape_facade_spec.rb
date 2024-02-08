@@ -10,7 +10,7 @@ RSpec.describe WebScrapeFacade do
         expect(scrape.name).to eq('Homemade Chicken Ravioli Recipe')
         expect(scrape.ingredients).to be_an(Array)
         expect(scrape.ingredients).to include('Ravioli Dough')
-        expect(scrape.instructions).to be_a(String)
+        expect(scrape.instructions).to be_a(Array)
       end
     end
   end
