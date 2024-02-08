@@ -10,7 +10,7 @@ RSpec.describe WebScrape do
       expect(recipe.name).to eq('random stuff')
       expect(recipe.ingredients).to be_an(Array)
       expect(recipe.ingredients.count).to eq(3)
-      expect(recipe.instructions).to be_a(String)
+      expect(recipe.instructions).to be_an(Array)
     end
   end
 end

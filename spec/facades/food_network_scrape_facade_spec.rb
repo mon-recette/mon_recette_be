@@ -10,7 +10,7 @@ RSpec.describe FoodNetworkScrapeFacade do
         expect(scrape.name).to eq('The Perfect Grilled Cheese')
         expect(scrape.ingredients).to be_an(Array)
         expect(scrape.ingredients.count).to eq(3)
-        expect(scrape.instructions).to be_a(String)
+        expect(scrape.instructions).to be_a(Array)
       end
     end
   end

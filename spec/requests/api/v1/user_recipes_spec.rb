@@ -7,7 +7,7 @@ RSpec.describe "add recipes to user" do
         user_id: user.id,
         name: "banana bread",
         ingredients: ["onion", "banana"],
-        instructions: "something"
+        instructions: ["something"]
     }
     post "/api/v1/recipes", params: params
     saved_recipe = JSON.parse(response.body, symbolize_names: true)
@@ -21,7 +21,7 @@ RSpec.describe "add recipes to user" do
         user_id: user.id,
         name: "banana bread",
         ingredients: ["onion", "banana"],
-        instructions: "something"
+        instructions: ["something"]
     }
     post "/api/v1/recipes", params: params
 
@@ -38,7 +38,7 @@ RSpec.describe "add recipes to user" do
         user_id: 1,
         name: "banana bread",
         ingredients: ["onion", "banana"],
-        instructions: "something"
+        instructions: ["something"]
     }
     post "/api/v1/recipes", params: params
     response_body = JSON.parse(response.body, symbolize_names: true)
@@ -52,7 +52,7 @@ RSpec.describe "add recipes to user" do
     params = {
       user_id: user.id,
       ingredients: ["onion", "banana"],
-      instructions: "something"
+      instructions: ["something"]
     }
     post "/api/v1/recipes", params: params
     response_body = JSON.parse(response.body, symbolize_names: true)

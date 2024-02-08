@@ -16,15 +16,18 @@ class TohScrape
               .gsub(('Text'), "")
               .gsub(('image/svg+xml'), "")
               .gsub(/(\d+-\d+\s*(?:\/\d+)?|\d+\/\d+|\d+)\s*([a-zA-Z]+)/, "\n\\1 \\2")
+              .gsub(/(\([^)]+\))/) { |match| match.gsub("\n", '') }
               .split("\n")
               .reject(&:blank?)
     ing.map { |ingredient| ingredient.strip }
   end
 
   def instructions
-    @inst.gsub(('Directions'), '')
-         .gsub(('   '), ' ')
-         .gsub(("\n"), "")
-         .gsub(("\t"), "")
+    inst = @inst.gsub(('Directions'), '')
+                .gsub(('   '), ' ')
+                .gsub(("\n"), "")
+                .gsub(("\t"), "")
+                .split(/(?<=\.) /)
+    inst.map { |sentence| sentence.reverse.strip.reverse }
   end
 end
