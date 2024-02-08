@@ -15,6 +15,7 @@ RSpec.describe "Find recipes by search" do
         expect(meal[:instructions]).to_not eq(nil)
         expect(meal).to have_key(:image_url)
         expect(meal).to have_key(:ingredients)
+        expect(meal[:instructions]).to be_an(Array)
         expect(meal[:ingredients]).to_not eq(nil)
       end
     end
