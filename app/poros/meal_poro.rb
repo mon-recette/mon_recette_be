@@ -20,7 +20,7 @@ class MealPoro
       result = {
         :name => meal[:strMeal],
         :instructions => instructions,
-        :image_url => meal[:strImageSource],
+        :image_url => meal[:strMealThumb],
         :ingredients => ingredient_list.delete_if(&:blank?)
       }
       @recipes << result
