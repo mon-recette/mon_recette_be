@@ -109,5 +109,17 @@ RSpec.describe 'recipes request' do
         expect(results[:errors].first[:title]).to eq("Please provide a correct website link")
       end
     end
+
+    it 'only works with 4 sites' do
+      VCR.use_cassette('not_approved') do
+        get '/api/v1/searches?term=https://www.simplyrecipes.com/three-ingredient-chicken-recipe-8559020'
+
+        expect(response.status).to eq(400)
+
+        results = JSON.parse(response.body, symbolize_names: true)
+        expect(results[:errors].first[:status]).to eq("400")
+        expect(results[:errors].first[:title]).to eq("Please provide a link from websites: a wicked whisk, all recipes, food network, taste of home")
+      end
+    end
   end
 end

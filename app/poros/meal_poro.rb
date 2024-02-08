@@ -16,7 +16,7 @@ class MealPoro
           ingredient_list << ingredient
         end
       end
-      instructions = meal[:strInstructions].gsub("\r\n", '').gsub(/STEP \d+/, '')
+      instructions = meal[:strInstructions].gsub("\r\n", '').gsub(/STEP \d+/, '').split(/(?<=\.) /)
       result = {
         :name => meal[:strMeal],
         :instructions => instructions,
