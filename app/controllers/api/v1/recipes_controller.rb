@@ -3,7 +3,7 @@ class Api::V1::RecipesController < ApplicationController
     if params[:user_id].present?
       user = User.find_by(id: params[:user_id])
       if user
-        render json: UserRecipesSerializer.new(UserRecipesPoro.new(params[:user_id], user.recipes.all)), status: 200
+        render json: UserRecipesSerializer.recipe_list(user), status: 200
       else
         render json: {errors: "User doesn't exist"}, status: 404
       end
