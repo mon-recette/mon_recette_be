@@ -64,6 +64,18 @@ RSpec.describe 'recipes request' do
     end
 
     it 'does not work without proper website' do
+      VCR.use_cassette('wrong_address_foodnetwork') do
+        get "/api/v1/searches?term=https://www.foodnetwork.com/recipes/food-network-kitchen/the-perfect-grilled-chees"
+
+        expect(response.status).to eq(400)
+
+        results = JSON.parse(response.body, symbolize_names: true)
+        expect(results[:errors].first[:status]).to eq("400")
+        expect(results[:errors].first[:title]).to eq("Please provide a correct website link")
+      end
+    end
+
+    it 'does not work without proper website' do
       VCR.use_cassette('fake_site') do
         get '/api/v1/searches?term=https://www.allrecipes.com/recipe/240400/skillet-chicken'
 
