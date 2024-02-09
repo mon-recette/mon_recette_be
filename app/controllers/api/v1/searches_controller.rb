@@ -34,8 +34,14 @@ class Api::V1::SearchesController < ApplicationController
       facade = AllRecipesScrapeFacade.new
       recipe_results = facade.recipe_details(website)
       render json: WebScrapeSerializer.recipes(recipe_results), status: 200
+    elsif website.include?('foodnetwork.com')
+      facade = FoodNetworkScrapeFacade.new
+      recipe_results = facade.recipe_details(website)
+      render json: WebScrapeSerializer.recipes(recipe_results), status: 200
     elsif website.include?('tasteofhome.com')
       render json: WebScrapeSerializer.recipes(TohScrapeFacade.new.recipe_details(website)), status: :ok
+    else
+      render json: { errors: [title: "Please provide a link from websites: a wicked whisk, all recipes, food network, taste of home", status: "400"]}, status: :bad_request
     end
   end
 end

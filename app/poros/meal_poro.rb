@@ -16,10 +16,11 @@ class MealPoro
           ingredient_list << ingredient
         end
       end
+      instructions = meal[:strInstructions].gsub("\r\n", '').gsub(/STEP \d+/, '').split(/(?<=\.) /)
       result = {
         :name => meal[:strMeal],
-        :instructions => meal[:strInstructions],
-        :image_url => meal[:strImageSource],
+        :instructions => instructions,
+        :image_url => meal[:strMealThumb],
         :ingredients => ingredient_list.delete_if(&:blank?)
       }
       @recipes << result

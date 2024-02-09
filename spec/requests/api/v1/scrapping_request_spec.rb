@@ -45,6 +45,36 @@ RSpec.describe 'recipes request' do
       end
     end
 
+    it "when user provides a link to the foodnetwork website, response provides name ingredients and instructions" do
+      VCR.use_cassette('foodnetwork_search') do
+        get "/api/v1/searches?term=https://www.foodnetwork.com/recipes/food-network-kitchen/the-perfect-grilled-cheese-3636831"
+        expect(response).to be_successful
+        expect(response.status).to eq(200)
+        found_recipes = JSON.parse(response.body, symbolize_names: true)[:data]
+        expect(found_recipes).to have_key(:id)
+        expect(found_recipes).to have_key(:type)
+        expect(found_recipes).to have_key(:id)
+        expect(found_recipes).to have_key(:type)
+        expect(found_recipes).to have_key(:attributes)
+        recipe_data = found_recipes[:attributes]
+        expect(recipe_data).to have_key(:name)
+        expect(recipe_data).to have_key(:ingredients)
+        expect(recipe_data).to have_key(:instructions)
+      end
+    end
+
+    it 'does not work without proper website' do
+      VCR.use_cassette('wrong_address_foodnetwork') do
+        get "/api/v1/searches?term=https://www.foodnetwork.com/recipes/food-network-kitchen/the-perfect-grilled-chees"
+
+        expect(response.status).to eq(400)
+
+        results = JSON.parse(response.body, symbolize_names: true)
+        expect(results[:errors].first[:status]).to eq("400")
+        expect(results[:errors].first[:title]).to eq("Please provide a correct website link")
+      end
+    end
+
     it 'does not work without proper website' do
       VCR.use_cassette('fake_site') do
         get '/api/v1/searches?term=https://www.allrecipes.com/recipe/240400/skillet-chicken'
@@ -76,7 +106,7 @@ RSpec.describe 'recipes request' do
         expect(recipe_data).to have_key(:instructions)
 
         expect(recipe_data[:ingredients]).to include('1 large egg, room temperature')
-        expect(recipe_data[:instructions]).to include('Preheat oven to 350°')
+        expect(recipe_data[:instructions]).to include('Preheat oven to 350°.')
       end
     end
 
@@ -89,6 +119,18 @@ RSpec.describe 'recipes request' do
         results = JSON.parse(response.body, symbolize_names: true)
         expect(results[:errors].first[:status]).to eq("400")
         expect(results[:errors].first[:title]).to eq("Please provide a correct website link")
+      end
+    end
+
+    it 'only works with 4 sites' do
+      VCR.use_cassette('not_approved') do
+        get '/api/v1/searches?term=https://www.simplyrecipes.com/three-ingredient-chicken-recipe-8559020'
+
+        expect(response.status).to eq(400)
+
+        results = JSON.parse(response.body, symbolize_names: true)
+        expect(results[:errors].first[:status]).to eq("400")
+        expect(results[:errors].first[:title]).to eq("Please provide a link from websites: a wicked whisk, all recipes, food network, taste of home")
       end
     end
   end

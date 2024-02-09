@@ -10,7 +10,7 @@ RSpec.describe TohScrapeFacade do
         expect(scrape.name).to eq('Chocolate Cupcakes with Strawberry Filling')
         expect(scrape.ingredients).to be_an(Array)
         expect(scrape.ingredients).to include('1/2 cup buttermilk')
-        expect(scrape.instructions).to be_a(String)
+        expect(scrape.instructions).to be_a(Array)
         expect(scrape.instructions).to include('Cool in pans 10 minutes before removing to wire racks to cool completely.')
       end
     end

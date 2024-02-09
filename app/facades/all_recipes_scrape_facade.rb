@@ -16,8 +16,8 @@ class AllRecipesScrapeFacade
       instructions_list << single
     end
     
-    name = document.css("h1.comp").first.children.text.gsub(/\n/,"") 
-    joined_instructions = instructions_list.join
+    name = document.css("h1.article-heading").first.children.text.gsub(/\n/,"") 
+    joined_instructions = instructions_list
     AllRecipesPoro.new(name, ingredients_list, joined_instructions) 
   end
 end
