@@ -80,8 +80,8 @@ Start the server on the back end application by typing the following in the term
 rails s
 ```
 
-NOTE: The back-end application should be running on PORT 3000,
-while the front-end application should be running on PORT ????.
+NOTE: The back-end application should be running on PORT 5000,
+while the front-end application should be running on PORT 3000.
 
 
 Run the following code in your terminal to install the gems required to use this application:
@@ -161,7 +161,7 @@ Response will be returned in the following JSON contract format:
   ```
 The same endpoint is used to find recipes from other websites. Here is an example:
 ```
-http://127.0.0.1:3000/api/v1/searches?term=https://www.awickedwhisk.com/homemade-chicken-ravioli-recipe-3/
+http://127.0.0.1:5000/api/v1/searches?term=https://www.awickedwhisk.com/homemade-chicken-ravioli-recipe-3/
 ```
 The JSON response will be the same.
 
