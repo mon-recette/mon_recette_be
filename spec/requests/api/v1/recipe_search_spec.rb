@@ -21,6 +21,27 @@ RSpec.describe "Find recipes by search" do
     end
   end
 
+  it "repeat call for caching" do
+    VCR.use_cassette('chicken_cache_results') do
+      get "/api/v1/searches?term=chicken"
+      get "/api/v1/searches?term=chicken"
+      found_recipes = JSON.parse(response.body, symbolize_names: true)[:data]
+      expect(found_recipes).to have_key(:id)
+      expect(found_recipes).to have_key(:type)
+      
+      found_recipes[:attributes][:recipes].each do |meal|
+        expect(meal).to have_key(:name)
+        expect(meal[:name]).to_not eq(nil)
+        expect(meal).to have_key(:instructions)
+        expect(meal[:instructions]).to_not eq(nil)
+        expect(meal).to have_key(:image_url)
+        expect(meal).to have_key(:ingredients)
+        expect(meal[:instructions]).to be_an(Array)
+        expect(meal[:ingredients]).to_not eq(nil)
+      end
+    end
+  end
+
   it "user doesn't exist" do 
     VCR.use_cassette('zzz_results') do
       get "/api/v1/searches?term=zzz"

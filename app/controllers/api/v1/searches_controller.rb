@@ -8,14 +8,23 @@ class Api::V1::SearchesController < ApplicationController
     end
   end
 
-  private
+  # def search_cache
+  #   @search_cache ||= {}
+  # end
 
+  private
   def food_search(search_term)
-    results = SearchFacade.new.get_recipes(search_term)
-    if results == "No results found"
-      render json: {errors: results}, status: 404
+    require 'pry';binding.pry
+    if Rails.cache.exist?(search_term)
+      render json: MealSerializer.new(Rails.cache.read(search_term)), status: 200
     else
-      render json: MealSerializer.new(results), status: 200
+      results = SearchFacade.new.get_recipes(search_term)
+      if results == "No results found"
+        render json: {errors: results}, status: 404
+      else
+        Rails.cache.write(search_term, results)
+        render json: MealSerializer.new(results), status: 200
+      end
     end
   end
 
