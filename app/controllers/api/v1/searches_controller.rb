@@ -8,10 +8,6 @@ class Api::V1::SearchesController < ApplicationController
     end
   end
 
-  # def search_cache
-  #   @search_cache ||= {}
-  # end
-
   private
   def food_search(search_term)
     if Rails.cache.exist?(search_term)
