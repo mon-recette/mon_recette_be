@@ -7,7 +7,7 @@ RSpec.describe "Find recipes by search" do
       found_recipes = JSON.parse(response.body, symbolize_names: true)[:data]
       expect(found_recipes).to have_key(:id)
       expect(found_recipes).to have_key(:type)
-      # expect(found_recipes[:type]).to eq("meal")
+      
       found_recipes[:attributes][:recipes].each do |meal|
         expect(meal).to have_key(:name)
         expect(meal[:name]).to_not eq(nil)
