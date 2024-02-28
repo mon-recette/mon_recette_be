@@ -16,9 +16,11 @@ jobs:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
           PGUSER: testuser
+          REDIS_URL: redis://127.0.0.1:6379
 
     # Service container image available at `host: localhost`
       - image: cimg/postgres:14.0
+      - image: cimg/redis:7.2.4
         environment:
           POSTGRES_USER: testuser
           POSTGRES_DB: mon_recette_test
