@@ -8,6 +8,14 @@ class Api::V1::SearchesController < ApplicationController
     end
   end
 
+  def recent_search
+    if Redis.new.get("found_search").present?
+      render json: {message: "Most recent search: #{Redis.new.get("found_search")}"}, status: 404
+    else
+      render json: {errors: "No recent searches"}, status: 404
+    end
+  end
+
   private
   def food_search(search_term)
     if Rails.cache.exist?(search_term)
@@ -18,6 +26,7 @@ class Api::V1::SearchesController < ApplicationController
         render json: {errors: results}, status: 404
       else
         Rails.cache.write(search_term, results)
+        MealDbResponseJob.perform_async(search_term)
         render json: MealSerializer.new(results), status: 200
       end
     end

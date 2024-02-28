@@ -16,8 +16,10 @@ jobs:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
           PGUSER: testuser
+          REDIS_URL: redis://127.0.0.1:6379
 
     # Service container image available at `host: localhost`
+      - image: cimg/redis:7.2.4
       - image: cimg/postgres:14.0
         environment:
           POSTGRES_USER: testuser
@@ -60,7 +62,9 @@ jobs:
               bundle exec rake db:create
             fi
 
-
+      - run:
+          name: Waiting for Redis primary to be ready
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
 
       - run:
           name: Parallel RSpec
