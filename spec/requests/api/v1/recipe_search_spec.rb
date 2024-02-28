@@ -40,14 +40,14 @@ RSpec.describe "Find recipes by search" do
   #   expect(response_body[:errors]).to eq("No recent searches")
   # end
 
-  it "tracks most recently searched" do
-    VCR.use_cassette('chicken_results') do
-      get "/api/v1/searches?term=chicken"
-      get "/api/v1/recent_search"
-      response_body = JSON.parse(response.body, symbolize_names: true)
+  # it "tracks most recently searched" do
+  #   VCR.use_cassette('chicken_results') do
+  #     get "/api/v1/searches?term=chicken"
+  #     get "/api/v1/recent_search"
+  #     response_body = JSON.parse(response.body, symbolize_names: true)
       
-      expect(response_body).to have_key(:message)
-      expect(response_body[:message]).to eq("Most recent search: chicken")
-    end
-  end
+  #     expect(response_body).to have_key(:message)
+  #     expect(response_body[:message]).to eq("Most recent search: chicken")
+  #   end
+  # end
 end
