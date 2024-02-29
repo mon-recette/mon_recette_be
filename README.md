@@ -34,6 +34,7 @@ This product is not compatible with Windows.
 
 ## API
 This application uses a free and unlimited api called [TheMealDB](https://www.themealdb.com/api.php). You don't need to sign up for a key, or use a key at all!
+It also utilizes caching and background workers; caching to make repeated search for terms or recipes quicker (memoization) and workers to handle actions that won't effect the main thread of the application.
 
 
 ## Why Use Mon Recette?
@@ -188,6 +189,21 @@ Response will be returned in the following JSON contract format:
      ]
     }
   }
+}
+```
+3. Most recent search
+Endpoint: `/api/v1/recent_search`
+Description: Fetch most recent search term.
+Example Request:
+```
+
+get "/api/v1/recent_search"
+
+```
+Response will be returned in the following JSON contract format:
+```
+{
+    "message": "Most recent search: chicken"
 }
 ```
 
